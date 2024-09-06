@@ -82,3 +82,18 @@ describe('GET /api/equipment', () => {
             });
     });
 });
+
+describe.only('GET /api/muscle-groups', () => {
+    test('200: Should fetch all muscle groups with the correct key:pair values', () => {
+        return request(app)
+            .get('/api/muscle-groups')
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.groups).toHaveLength(10);
+                body.groups.forEach(group => {
+                    expect(group).toHaveProperty('group_id');
+                    expect(group).toHaveProperty('name');
+                });
+            });
+    });
+});
