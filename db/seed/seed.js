@@ -41,6 +41,9 @@ const seed = () => {
 
             return Promise.all([equipmentTableQuery, muscleGroupTableQuery, exercisesTableQuery]);
         })
+        .then(() => {
+            
+        })
         .catch((err) => {
             console.log("Error whilst running seed: ", err);
         });
