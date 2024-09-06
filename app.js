@@ -1,5 +1,5 @@
 const express = require('express');
-const { helloWorld, getAllExercises, getExerciseById } = require('./controllers/exercises.controller');
+const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId } = require('./controllers/exercises.controller');
 const { getAllEquipment } = require('./controllers/equipment.controller');
 const { getAllMuscleGroups } = require('./controllers/muscleGroups.controller');
 const app = express();
@@ -9,10 +9,12 @@ app.get('/', helloWorld);
 
 app.get('/api/exercises', getAllExercises);
 app.get('/api/exercises/:exercise_id', getExerciseById);
+app.get('/api/exercises/equipment/:equipment_id', getExercisesByEquipmentId);
 
 app.get('/api/equipment', getAllEquipment);
 
 app.get('/api/muscle-groups', getAllMuscleGroups);
+
 app.use((err, req, res, next) => {
     console.log(err);
     const status = err.status || 500;
