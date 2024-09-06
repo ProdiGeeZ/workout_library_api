@@ -1,0 +1,13 @@
+{
+  "name": "workout_library_api",
+  "version": "1.0.0",
+  "description": "Build a library of exercises with video demonstrations. Users can browse exercises and watch instructional videos.",
+  "main": "index.js",
+  "scripts": {
+    "setup": "psql -f setup.sql",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
