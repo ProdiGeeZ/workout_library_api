@@ -67,3 +67,18 @@ describe('GET /api/exercises/:exercise_id', () => {
             });
     });
 });
+
+describe('GET /api/equipment', () => {
+    test('200: Should fetch all equipment with the correct key:pair values', () => {
+        return request(app)
+            .get('/api/equipment')
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.equipment).toHaveLength(9);
+                body.equipment.forEach(equipment => {
+                    expect(equipment).toHaveProperty('equipment_id');
+                    expect(equipment).toHaveProperty('name');
+                });
+            });
+    });
+});
