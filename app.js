@@ -1,5 +1,6 @@
 const express = require('express');
 const { helloWorld, getAllExercises, getExerciseById } = require('./controllers/exercises.controller');
+const { getAllEquipment } = require('./controllers/equipment.controller');
 const app = express();
 app.use(express.json());
 
@@ -7,6 +8,9 @@ app.get('/', helloWorld);
 
 app.get('/api/exercises', getAllExercises);
 app.get('/api/exercises/:exercise_id', getExerciseById);
+
+app.get('/api/equipment', getAllEquipment);
+
 
 app.use((err, req, res, next) => {
     console.log(err);
