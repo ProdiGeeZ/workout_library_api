@@ -83,7 +83,7 @@ describe('GET /api/equipment', () => {
     });
 });
 
-describe.only('GET /api/muscle-groups', () => {
+describe('GET /api/muscle-groups', () => {
     test('200: Should fetch all muscle groups with the correct key:pair values', () => {
         return request(app)
             .get('/api/muscle-groups')
