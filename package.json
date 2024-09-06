@@ -4,8 +4,8 @@
   "description": "Build a library of exercises with video demonstrations. Users can browse exercises and watch instructional videos.",
   "main": "index.js",
   "scripts": {
-    "setup": "psql -f setup.sql",
-    "seed": "node ./run-seed.js",
+    "setup": "psql -f ./db/setup.sql",
+    "seed": "node ./db/seed/run-seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

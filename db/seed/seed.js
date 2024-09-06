@@ -1,4 +1,4 @@
-const db = require('./connection');
+const db = require('../connection');
 
 const seed = () => {
     return db
@@ -24,7 +24,7 @@ const seed = () => {
                     group_id SERIAL PRIMARY KEY,
                     name TEXT NOT NULL
                 );`);
-            
+
             const exercisesTableQuery = db.query(`
                 CREATE TABLE exercises (
                     exercise_id SERIAL PRIMARY KEY,
@@ -38,7 +38,7 @@ const seed = () => {
                     FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id) ON DELETE CASCADE,
                     FOREIGN KEY (group_id) REFERENCES muscle_groups(group_id) ON DELETE CASCADE
                 );`);
-            
+
             return Promise.all([equipmentTableQuery, muscleGroupTableQuery, exercisesTableQuery]);
         })
         .catch((err) => {
