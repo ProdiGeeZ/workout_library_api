@@ -1,6 +1,7 @@
 const express = require('express');
 const { helloWorld, getExercises } = require('./controllers/exercises.controller');
 const app = express();
+app.use(express.json());
 
 app.get('/', helloWorld);
 

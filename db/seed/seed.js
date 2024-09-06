@@ -13,19 +13,23 @@ const seed = ({ muscleGroupsData, equipmentData, exercisesData }) => {
             return db.query(`DROP TABLE IF EXISTS equipment;`);
         })
         .then(() => {
-            const equipmentTableQuery = db.query(`
+            return db.query(`
                 CREATE TABLE IF NOT EXISTS equipment (
                     equipment_id SERIAL PRIMARY KEY,
                     name TEXT NOT NULL
-                );`);
-
-            const muscleGroupTableQuery = db.query(`
+                );
+            `);
+        })
+        .then(() => {
+            return db.query(`
                 CREATE TABLE IF NOT EXISTS muscle_groups (
                     group_id SERIAL PRIMARY KEY,
                     name TEXT NOT NULL
-                );`);
-
-            const exercisesTableQuery = db.query(`
+                );
+            `);
+        })
+        .then(() => {
+            return db.query(`
                 CREATE TABLE IF NOT EXISTS exercises (
                     exercise_id SERIAL PRIMARY KEY,
                     name TEXT NOT NULL,
@@ -37,13 +41,8 @@ const seed = ({ muscleGroupsData, equipmentData, exercisesData }) => {
                     video_url TEXT,
                     FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id) ON DELETE CASCADE,
                     FOREIGN KEY (group_id) REFERENCES muscle_groups(group_id) ON DELETE CASCADE
-                );`);
-
-            return Promise.all([
-                equipmentTableQuery,
-                muscleGroupTableQuery,
-                exercisesTableQuery,
-            ]);
+                );
+            `);
         })
         .then(() => {
             console.log('Inserting Equipment Data...');
@@ -51,7 +50,6 @@ const seed = ({ muscleGroupsData, equipmentData, exercisesData }) => {
                 `INSERT INTO equipment (name) VALUES %L ON CONFLICT DO NOTHING;`,
                 equipmentData.map(({ name }) => [name])
             );
-
             return db.query(insertEquipmentQuery);
         })
         .then(() => {
@@ -61,7 +59,6 @@ const seed = ({ muscleGroupsData, equipmentData, exercisesData }) => {
                 `INSERT INTO muscle_groups (name) VALUES %L ON CONFLICT DO NOTHING RETURNING *;`,
                 muscleGroupsData.map(({ name }) => [name])
             );
-
             return db.query(insertMuscleGroupsQuery);
         })
         .then(() => {
