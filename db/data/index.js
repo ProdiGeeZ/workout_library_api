@@ -1,3 +1,3 @@
 exports.equipmentData = require("./equipmentData");
-exports.exerciseData = require("./exercisesData");
-exports.muscleGroupData = require("./muscleGroupsData");
+exports.exercisesData = require("./exercisesData");
+exports.muscleGroupsData = require("./muscleGroupsData")
