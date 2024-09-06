@@ -1,6 +1,6 @@
 const { Pool } = require("pg");
 
-const ENV = process.env.NODE_ENV || "development";
+const ENV = process.env.NODE_ENV || "test";
 require("dotenv").config({
     path: `${__dirname}/../.env.${ENV}`,
 });
@@ -20,9 +20,11 @@ if (ENV === "production") {
 
     poolConfig.connectionString = process.env.DATABASE_URL;
     poolConfig.ssl = {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
     };
     poolConfig.max = 20;
+} else if (ENV === "test") {
+    console.log('Running in test environment');
 }
 
 module.exports = new Pool(poolConfig);
