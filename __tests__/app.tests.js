@@ -134,3 +134,41 @@ describe('GET /api/exercises/equipment/:equipment_id', () => {
             });
     });
 });
+
+describe('GET /api/exercises/muscle-group/:group_id', () => {
+    test('200: Should fetch all exercises by muscle group id with the correct key:pair values', () => {
+        return request(app)
+            .get('/api/exercises/muscle-group/1')
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.exercises).toHaveLength(1);
+                body.exercises.forEach(exercise => {
+                    expect(exercise).toHaveProperty('exercise_id');
+                    expect(exercise).toHaveProperty('name');
+                    expect(exercise).toHaveProperty('description');
+                    expect(exercise).toHaveProperty('equipment_id');
+                    expect(exercise).toHaveProperty('group_id');
+                    expect(exercise).toHaveProperty('exercise_category');
+                    expect(exercise).toHaveProperty('image_url');
+                    expect(exercise).toHaveProperty('video_url');
+                });
+            });
+    });
+    test('400: Should return an error message when the request is invalid', () => {
+        return request(app)
+            .get('/api/exercises/muscle-group/invalid')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request: Invalid request format.');
+            });
+    });
+    test('404: Should return an error message when muscle group does not exist', () => {
+        return request(app)
+            .get('/api/exercises/muscle-group/9999')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Not Found: Muscle group does not exist.');
+            }
+            );
+    });
+});
