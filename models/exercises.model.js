@@ -70,3 +70,58 @@ exports.deleteExerciseById = (exercise_id) => {
             return result.rows[0];
         });
 }
+
+exports.editExerciseById = (exercise_id, exerciseData) => {
+    const fields = [];
+    const values = [];
+
+    if (exerciseData.name) {
+        fields.push('name = %L');
+        values.push(exerciseData.name);
+    }
+    if (exerciseData.description) {
+        fields.push('description = %L');
+        values.push(exerciseData.description);
+    }
+    if (exerciseData.equipment_id) {
+        fields.push('equipment_id = %L');
+        values.push(exerciseData.equipment_id);
+    }
+    if (exerciseData.group_id) {
+        fields.push('group_id = %L');
+        values.push(exerciseData.group_id);
+    }
+    if (exerciseData.exercise_category) {
+        fields.push('exercise_category = %L');
+        values.push(exerciseData.exercise_category);
+    }
+    if (exerciseData.image_url) {
+        fields.push('image_url = %L');
+        values.push(exerciseData.image_url);
+    }
+    if (exerciseData.video_url) {
+        fields.push('video_url = %L');
+        values.push(exerciseData.video_url);
+    }
+
+    if (fields.length === 0) {
+        return Promise.reject({ status: 400, msg: 'No fields to update' });
+    }
+
+    values.push(exercise_id);
+
+    const query = format(`
+        UPDATE exercises
+        SET ${fields.join(', ')}
+        WHERE exercise_id = %L
+        RETURNING *;
+    `, ...values);
+
+    return db.query(query)
+        .then((result) => {
+            if (result.rows.length === 0) {
+                return Promise.reject({ status: 404, msg: 'Not Found: Exercise does not exist.' });
+            }
+            return result.rows[0];
+        });
+};
