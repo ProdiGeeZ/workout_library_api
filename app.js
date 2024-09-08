@@ -25,7 +25,7 @@ app.use('/api/muscle-groups', muscleGroupRouter);
 
 app.get('/', (req, res) => {
     logger.info('Accessed Documentation Endpoint');
-    res.status(200).send({ msg: 'Welcome to the Workout API/', documentation });
+    res.status(200).send({ msg: 'Welcome to the Workout Library API!', documentation });
 });
 
 app.use(handleCustomErrors);
