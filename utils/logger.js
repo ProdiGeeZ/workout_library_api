@@ -17,7 +17,7 @@ const logger = createLogger({
         new DailyRotateFile({
             filename: 'logs/application-%DATE%.log',
             datePattern: 'YYYY-MM-DD',
-            maxFiles: '14d', // Keep logs for the last 14 days
+            maxFiles: '14d', 
             level: 'info'
         }),
         new transports.File({ filename: 'logs/error.log', level: 'error' }),
