@@ -296,7 +296,7 @@ describe('DELETE /api/exercises/:exercise_id', () => {
     });
 });
 
-describe.only('PUT /api/exercises/:exercise_id', () => {
+describe('PUT /api/exercises/:exercise_id', () => {
     test('200: Should update an exercise and return the updated exercise', () => {
         const originalExercise = {
             name: "Barbell Bench Press",
@@ -323,15 +323,24 @@ describe.only('PUT /api/exercises/:exercise_id', () => {
             .send(updatedExerciseData)
             .expect(200)
             .then(({ body }) => {
+                expect(body).toHaveProperty('exercise');
                 const updatedExercise = body.exercise;
-                expect(updatedExercise.name).toEqual(updatedExerciseData.name);
-                expect(updatedExercise.description).toEqual(updatedExerciseData.description);
-                expect(updatedExercise.equipment_id).toEqual(updatedExerciseData.equipment_id);
-                expect(updatedExercise.group_id).toEqual(updatedExerciseData.group_id);
-                expect(updatedExercise.exercise_category).toEqual(updatedExerciseData.exercise_category);
-                expect(updatedExercise.image_url).toEqual(updatedExerciseData.image_url);
-                expect(updatedExercise.video_url).toEqual(updatedExerciseData.video_url);
-                expect(updatedExercise.exercise_id).toEqual(1);
+    
+                expect(updatedExercise.name).not.toBe(originalExercise.name);
+                expect(updatedExercise.description).not.toBe(originalExercise.description);
+                expect(updatedExercise.equipment_id).not.toBe(originalExercise.equipment_id);
+                expect(updatedExercise.group_id).toBe(originalExercise.group_id); 
+                expect(updatedExercise.exercise_category).not.toBe(originalExercise.exercise_category);
+                expect(updatedExercise.image_url).not.toBe(originalExercise.image_url);
+                expect(updatedExercise.video_url).not.toBe(originalExercise.video_url);
+    
+                expect(updatedExercise.name).toBe(updatedExerciseData.name);
+                expect(updatedExercise.description).toBe(updatedExerciseData.description);
+                expect(updatedExercise.equipment_id).toBe(updatedExerciseData.equipment_id);
+                expect(updatedExercise.exercise_category).toBe(updatedExerciseData.exercise_category);
+                expect(updatedExercise.image_url).toBe(updatedExerciseData.image_url);
+                expect(updatedExercise.video_url).toBe(updatedExerciseData.video_url);
+                expect(updatedExercise.exercise_id).toBe(1);
             });
     });
     test('404: Should return an error message when exercise does not exist', () => {
