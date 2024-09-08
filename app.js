@@ -28,6 +28,10 @@ app.get('/', (req, res) => {
     res.status(200).send({ msg: 'Welcome to the Workout Library API!', documentation });
 });
 
+app.all("*", (req, res, next) => {
+    res.status(404).send({ msg: 'Path not found' });
+});
+
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
 app.use(handleServerErrors);
