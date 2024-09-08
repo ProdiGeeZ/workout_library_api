@@ -5,7 +5,8 @@ exports.helloWorld = (req, res) => {
 };
 
 exports.getAllExercises = (req, res, next) => {
-    return fetchAllExercises()
+    const { limit = 10, page = 1, sort_by = 'name', order = 'asc' } = req.query;
+    return fetchAllExercises(limit, page, sort_by, order)
         .then((exercises) => {
             res.status(200).send({ exercises });
         })
@@ -23,21 +24,23 @@ exports.getExerciseById = (req, res, next) => {
 
 exports.getExercisesByEquipmentId = (req, res, next) => {
     const { equipment_id } = req.params;
-    return fetchExercisesByEquipmentId(equipment_id)
+    const { limit = 10, page = 1, sort_by = 'name', order = 'asc' } = req.query;
+    return fetchExercisesByEquipmentId(equipment_id, limit, page, sort_by, order)
         .then((exercises) => {
             res.status(200).send({ exercises });
         })
         .catch(next);
-}
+};
 
 exports.getExercisesByMuscleGroupId = (req, res, next) => {
     const { group_id } = req.params;
-    return fetchExercisesByMuscleGroupId(group_id)
+    const { limit = 10, page = 1, sort_by = 'name', order = 'asc' } = req.query;
+    return fetchExercisesByMuscleGroupId(group_id, limit, page, sort_by, order)
         .then((exercises) => {
             res.status(200).send({ exercises });
         })
         .catch(next);
-}
+};
 
 exports.postExercise = (req, res, next) => {
     const exerciseData = req.body;

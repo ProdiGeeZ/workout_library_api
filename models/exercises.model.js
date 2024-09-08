@@ -1,12 +1,25 @@
 const db = require('../db/connection')
 const format = require('pg-format');
 
-exports.fetchAllExercises = () => {
-    return db.query(`SELECT * FROM exercises;`)
-        .then((result) => {
-            return result.rows;
-        });
+exports.fetchAllExercises = (limit = 10, page = 1, sort_by = 'name', order = 'asc') => {
+    const validSortByFields = ['name', 'exercise_category', 'equipment_id', 'group_id'];
+    const validOrder = ['asc', 'desc'];
+
+    if (!validSortByFields.includes(sort_by)) sort_by = 'name'; 
+    if (!validOrder.includes(order)) order = 'asc'; 
+
+    const offset = (page - 1) * limit;
+
+    return db.query(
+        `SELECT * FROM exercises
+        ORDER BY ${sort_by} ${order.toUpperCase()}
+        LIMIT $1 OFFSET $2;`,
+        [limit, offset]
+    ).then((result) => {
+        return result.rows;
+    });
 };
+
 
 exports.fetchExerciseById = (exercise_id) => {
     return db.query(`SELECT * FROM exercises WHERE exercise_id = $1;`, [exercise_id])
@@ -18,25 +31,51 @@ exports.fetchExerciseById = (exercise_id) => {
         });
 }
 
-exports.fetchExercisesByEquipmentId = (equipment_id) => {
-    return db.query(`SELECT * FROM exercises WHERE equipment_id = $1;`, [equipment_id])
-        .then((result) => {
-            if (result.rows.length === 0) {
-                return Promise.reject({ status: 404, msg: 'Not Found: Equipment does not exist.' });
-            }
-            return result.rows;
-        });
-}
+exports.fetchExercisesByEquipmentId = (equipment_id, limit = 10, page = 1, sort_by = 'name', order = 'asc') => {
+    const validSortByFields = ['name', 'exercise_category', 'group_id'];
+    const validOrder = ['asc', 'desc'];
 
-exports.fetchExercisesByMuscleGroupId = (group_id) => {
-    return db.query(`SELECT * FROM exercises WHERE group_id = $1;`, [group_id])
-        .then((result) => {
-            if (result.rows.length === 0) {
-                return Promise.reject({ status: 404, msg: 'Not Found: Muscle group does not exist.' });
-            }
-            return result.rows;
-        });
-}
+    if (!validSortByFields.includes(sort_by)) sort_by = 'name';
+    if (!validOrder.includes(order)) order = 'asc';
+
+    const offset = (page - 1) * limit;
+
+    return db.query(
+        `SELECT * FROM exercises
+        WHERE equipment_id = $1
+        ORDER BY ${sort_by} ${order.toUpperCase()}
+        LIMIT $2 OFFSET $3;`,
+        [equipment_id, limit, offset]
+    ).then((result) => {
+        if (result.rows.length === 0) {
+            return Promise.reject({ status: 404, msg: 'Not Found: Equipment does not exist.' });
+        }
+        return result.rows;
+    });
+};
+
+exports.fetchExercisesByMuscleGroupId = (group_id, limit = 10, page = 1, sort_by = 'name', order = 'asc') => {
+    const validSortByFields = ['name', 'exercise_category', 'equipment_id'];
+    const validOrder = ['asc', 'desc'];
+
+    if (!validSortByFields.includes(sort_by)) sort_by = 'name';
+    if (!validOrder.includes(order)) order = 'asc';
+
+    const offset = (page - 1) * limit;
+
+    return db.query(
+        `SELECT * FROM exercises
+        WHERE group_id = $1
+        ORDER BY ${sort_by} ${order.toUpperCase()}
+        LIMIT $2 OFFSET $3;`,
+        [group_id, limit, offset]
+    ).then((result) => {
+        if (result.rows.length === 0) {
+            return Promise.reject({ status: 404, msg: 'Not Found: Muscle group does not exist.' });
+        }
+        return result.rows;
+    });
+};
 
 exports.addExercise = (exerciseData) => {
     const values = [
