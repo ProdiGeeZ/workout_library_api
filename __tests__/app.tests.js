@@ -172,3 +172,96 @@ describe('GET /api/exercises/muscle-group/:group_id', () => {
             );
     });
 });
+
+describe('POST /api/exercises', () => {
+    test('201: Should create a new exercise and return a success message', () => {
+        return request(app)
+            .post('/api/exercises')
+            .send({
+                name: 'New Exercise',
+                description: 'New Description',
+                equipment_id: 1,
+                group_id: 1,
+                exercise_category: 'Isolation',
+                image_url: 'https://www.image.com',
+                video_url: 'https://www.youtube.com/watch?v=12345'
+            })
+            .expect(201)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Exercise added.');
+            });
+    });
+    test('400: Should return an error message when the request is invalid', () => {
+        return request(app)
+            .post('/api/exercises')
+            .send({
+                description: 'New Description',
+                equipment_id: 1,
+                group_id: 1
+            })
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request: Request body is missing values.');
+            });
+    });
+    test('404: Should return an error message when equipment does not exist', () => {
+        return request(app)
+            .post('/api/exercises')
+            .send({
+                name: 'New Exercise',
+                description: 'New Description',
+                equipment_id: 9999,
+                group_id: 1,
+                exercise_category: 'Isolation',
+                image_url: 'https://www.google.com',
+                video_url: 'https://www.youtube.com/watch?v=12345'
+            })
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Not Found: One or more values do not exist.');
+            });
+    });
+    test('404: Should return an error message when muscle group does not exist', () => {
+        const exerciseData = {
+            name: 'New Exercise',
+            description: 'New Description',
+            equipment_id: 1,
+            group_id: 9999,
+            exercise_category: 'Isolation',
+            image_url: 'https://www.image.com',
+            video_url: 'https://www.youtube.com/watch?v=12345'
+        };
+        return request(app)
+            .post('/api/exercises')
+            .send(exerciseData)
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe(`Not Found: One or more values do not exist.`);
+            });
+    });
+    test('201: Should return the new exercise', () => {
+        return request(app)
+            .post('/api/exercises')
+            .send({
+                name: 'New Exercise',
+                description: 'New Description',
+                equipment_id: 1,
+                group_id: 1,
+                exercise_category: 'Isolation',
+                image_url: 'https://www.image.com',
+                video_url: 'https://www.youtube.com/watch?v=12345'
+            })
+            .expect(201)
+            .then(({ body }) => {
+                const exercise = body.exercise;
+                expect(exercise).toHaveProperty('exercise_id');
+                expect(exercise).toHaveProperty('name');
+                expect(exercise).toHaveProperty('description');
+                expect(exercise).toHaveProperty('equipment_id');
+                expect(exercise).toHaveProperty('group_id');
+                expect(exercise).toHaveProperty('exercise_category');
+                expect(exercise).toHaveProperty('image_url');
+                expect(exercise).toHaveProperty('video_url');
+            });
+    });
+});

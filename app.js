@@ -1,5 +1,5 @@
 const express = require('express');
-const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId } = require('./controllers/exercises.controller');
+const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId, postExercise } = require('./controllers/exercises.controller');
 const { getAllEquipment } = require('./controllers/equipment.controller');
 const { getAllMuscleGroups } = require('./controllers/muscleGroups.controller');
 const app = express();
@@ -11,6 +11,7 @@ app.get('/api/exercises', getAllExercises);
 app.get('/api/exercises/:exercise_id', getExerciseById);
 app.get('/api/exercises/equipment/:equipment_id', getExercisesByEquipmentId);
 app.get('/api/exercises/muscle-group/:group_id', getExercisesByMuscleGroupId);
+app.post('/api/exercises', postExercise);
 
 app.get('/api/equipment', getAllEquipment);
 
@@ -22,6 +23,12 @@ app.use((err, req, res, next) => {
     const message = err.msg || "Internal Server Error";
     if (err.code === '22P02') {
         return res.status(400).send({ msg: "Bad Request: Invalid request format." });
+    }
+    else if (err.code === '23502') {
+        return res.status(400).send({ msg: `Bad Request: Request body is missing values.` });
+    }
+    else if (err.code === '23503') {
+        return res.status(404).send({ msg: `Not Found: One or more values do not exist.` });
     }
     res.status(status).send({ msg: message });
 });
