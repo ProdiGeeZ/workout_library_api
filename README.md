@@ -34,7 +34,7 @@ To run this project locally, ensure that you have the following software install
 
 First, clone this repository to your local machine:
 ```bash
-git clone https://github.com/your-repo/exercise-library-api.git
+git clone https://github.com/ProdiGeeZ/workout_library_api.git
 cd exercise-library-api
 ```
 
