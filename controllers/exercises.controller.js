@@ -1,4 +1,4 @@
-const { fetchAllExercises, fetchExerciseById, fetchExercisesByEquipmentId, fetchExercisesByMuscleGroupId, addExercise, deleteExerciseById, } = require("../models/exercises.model");
+const { fetchAllExercises, fetchExerciseById, fetchExercisesByEquipmentId, fetchExercisesByMuscleGroupId, addExercise, deleteExerciseById, editExerciseById, } = require("../models/exercises.model");
 
 exports.helloWorld = (req, res) => {
     res.status(200).send('Hello, World!');
@@ -53,6 +53,16 @@ exports.deleteExercise = (req, res, next) => {
     deleteExerciseById(exercise_id)
         .then(() => {
             res.status(204).send({ msg: "Exercise deleted."});
+        })
+        .catch(next);
+}
+
+exports.editExercise = (req, res, next) => {
+    const { exercise_id } = req.params;
+    const exerciseData = req.body;
+    editExerciseById(exercise_id, exerciseData)
+        .then((exercise) => {
+            res.status(200).send({ exercise, msg: "Exercise updated." });
         })
         .catch(next);
 }
