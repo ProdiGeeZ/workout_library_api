@@ -1,0 +1,185 @@
+{
+    "GET /api": {
+        "description": "Serves up a JSON representation of all the available endpoints of the API"
+    },
+    "GET /api/exercises": {
+        "description": "Serves an array of all exercises",
+        "queries": [
+            "limit",
+            "page",
+            "sort_by",
+            "order"
+        ],
+        "exampleResponse": {
+            "exercises": [
+                {
+                    "exercise_id": 1,
+                    "name": "Barbell Bench Press",
+                    "description": "A compound exercise targeting the chest, shoulders, and triceps.",
+                    "equipment_id": 3,
+                    "group_id": 1,
+                    "exercise_category": "Compound",
+                    "image_url": "https://example.com/images/barbell_bench_press.jpg",
+                    "video_url": "https://example.com/videos/barbell_bench_press.mp4"
+                }
+            ]
+        }
+    },
+    "GET /api/exercises/:exercise_id": {
+        "description": "Get an exercise by its ID",
+        "queries": [
+            "exercise_id"
+        ],
+        "exampleResponse": {
+            "exercise": {
+                "exercise_id": 1,
+                "name": "Barbell Bench Press",
+                "description": "A compound exercise targeting the chest, shoulders, and triceps.",
+                "equipment_id": 3,
+                "group_id": 1,
+                "exercise_category": "Compound",
+                "image_url": "https://example.com/images/barbell_bench_press.jpg",
+                "video_url": "https://example.com/videos/barbell_bench_press.mp4"
+            }
+        }
+    },
+    "POST /api/exercises": {
+        "description": "Posts a new exercise and returns the new object",
+        "queries": [
+            {
+                "name": "Barbell Curl",
+                "description": "An isolation exercise targeting the biceps.",
+                "equipment_id": 2,
+                "group_id": 2,
+                "exercise_category": "Isolation",
+                "image_url": "https://example.com/images/barbell_curl.jpg",
+                "video_url": "https://example.com/videos/barbell_curl.mp4"
+            }
+        ],
+        "exampleResponse": {
+            "exercise": {
+                "exercise_id": 2,
+                "name": "Barbell Curl",
+                "description": "An isolation exercise targeting the biceps.",
+                "equipment_id": 2,
+                "group_id": 2,
+                "exercise_category": "Isolation",
+                "image_url": "https://example.com/images/barbell_curl.jpg",
+                "video_url": "https://example.com/videos/barbell_curl.mp4"
+            }
+        }
+    },
+    "PUT /api/exercises/:exercise_id": {
+        "description": "Updates an exercise by its ID",
+        "queries": [
+            "exercise_id",
+            {
+                "name": "Updated Exercise",
+                "description": "Updated Description"
+            }
+        ],
+        "exampleResponse": {
+            "exercise": {
+                "exercise_id": 1,
+                "name": "Updated Exercise",
+                "description": "Updated description for the exercise.",
+                "equipment_id": 3,
+                "group_id": 1,
+                "exercise_category": "Compound",
+                "image_url": "https://example.com/images/updated_exercise.jpg",
+                "video_url": "https://example.com/videos/updated_exercise.mp4"
+            }
+        }
+    },
+    "DELETE /api/exercises/:exercise_id": {
+        "description": "Deletes an exercise by its ID",
+        "queries": [
+            "exercise_id"
+        ],
+        "exampleResponse": {
+            "status": 204
+        }
+    },
+    "GET /api/exercises/equipment/:equipment_id": {
+        "description": "Retrieves exercises by equipment ID",
+        "queries": [
+            "limit",
+            "page",
+            "sort_by",
+            "order"
+        ],
+        "pathVariables": {
+            "equipment_id": "The ID of the equipment to filter exercises by."
+        },
+        "exampleResponse": {
+            "exercises": [
+                {
+                    "exercise_id": 3,
+                    "name": "Dumbbell Fly",
+                    "description": "An isolation exercise targeting the chest.",
+                    "equipment_id": 2,
+                    "group_id": 1,
+                    "exercise_category": "Isolation",
+                    "image_url": "https://example.com/images/dumbbell_fly.jpg",
+                    "video_url": "https://example.com/videos/dumbbell_fly.mp4"
+                }
+            ]
+        }
+    },
+    "GET /api/exercises/muscle-group/:group_id": {
+        "description": "Retrieves exercises by muscle group ID",
+        "queries": [
+            "limit",
+            "page",
+            "sort_by",
+            "order"
+        ],
+        "pathVariables": {
+            "group_id": "The ID of the muscle group to filter exercises by."
+        },
+        "exampleResponse": {
+            "exercises": [
+                {
+                    "exercise_id": 4,
+                    "name": "Pull-Up",
+                    "description": "A bodyweight exercise targeting the back.",
+                    "equipment_id": 5,
+                    "group_id": 2,
+                    "exercise_category": "Compound",
+                    "image_url": "https://example.com/images/pull_up.jpg",
+                    "video_url": "https://example.com/videos/pull_up.mp4"
+                }
+            ]
+        }
+    },
+    "GET /api/equipment": {
+        "description": "Retrieves a list of all available equipment",
+        "exampleResponse": {
+            "equipment": [
+                {
+                    "equipment_id": 1,
+                    "name": "Barbell"
+                },
+                {
+                    "equipment_id": 2,
+                    "name": "Dumbbell"
+                }
+            ]
+        }
+    },
+    "GET /api/muscle-groups": {
+        "description": "Retrieves a list of all muscle groups",
+        "exampleResponse": {
+            "muscle_groups": [
+                {
+                    "group_id": 1,
+                    "name": "Chest"
+                },
+                {
+                    "group_id": 2,
+                    "name": "Back"
+                }
+            ]
+        }
+    }
+}
