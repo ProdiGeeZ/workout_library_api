@@ -1,5 +1,5 @@
 const express = require('express');
-const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId, postExercise } = require('./controllers/exercises.controller');
+const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId, postExercise, deleteExercise } = require('./controllers/exercises.controller');
 const { getAllEquipment } = require('./controllers/equipment.controller');
 const { getAllMuscleGroups } = require('./controllers/muscleGroups.controller');
 const app = express();
@@ -12,6 +12,7 @@ app.get('/api/exercises/:exercise_id', getExerciseById);
 app.get('/api/exercises/equipment/:equipment_id', getExercisesByEquipmentId);
 app.get('/api/exercises/muscle-group/:group_id', getExercisesByMuscleGroupId);
 app.post('/api/exercises', postExercise);
+app.delete('/api/exercises/:exercise_id', deleteExercise);
 
 app.get('/api/equipment', getAllEquipment);
 
