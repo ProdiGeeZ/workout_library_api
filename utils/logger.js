@@ -14,6 +14,12 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console(),
+        new DailyRotateFile({
+            filename: 'logs/application-%DATE%.log',
+            datePattern: 'YYYY-MM-DD',
+            maxFiles: '14d', // Keep logs for the last 14 days
+            level: 'info'
+        }),
         new transports.File({ filename: 'logs/error.log', level: 'error' }),
         new transports.File({ filename: 'logs/combined.log' })
     ]
