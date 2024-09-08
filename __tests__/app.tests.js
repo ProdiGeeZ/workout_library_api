@@ -265,3 +265,33 @@ describe('POST /api/exercises', () => {
             });
     });
 });
+
+
+describe('DELETE /api/exercises/:exercise_id', () => {
+    test('204: Should delete an exercise and return no content', () => {
+        return request(app)
+            .delete('/api/exercises/1')
+            .expect(204)
+            .then(({ body }) => {
+                console.log(body);
+                
+                expect(body).toEqual({});
+            });
+    });
+    test('404: Should return an error message when exercise does not exist', () => {
+        return request(app)
+            .delete('/api/exercises/9999')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Not Found: Exercise does not exist.');
+            });
+    });
+    test('400: Should return an error message when the request is invalid', () => {
+        return request(app)
+            .delete('/api/exercises/invalid')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.msg).toBe('Bad Request: Invalid request format.');
+            });
+    });
+});
