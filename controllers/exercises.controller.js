@@ -1,4 +1,4 @@
-const { fetchAllExercises, fetchExerciseById, fetchExercisesByEquipmentId, fetchExercisesByMuscleGroupId,  } = require("../models/exercises.model");
+const { fetchAllExercises, fetchExerciseById, fetchExercisesByEquipmentId, fetchExercisesByMuscleGroupId, addExercise,  } = require("../models/exercises.model");
 
 exports.helloWorld = (req, res) => {
     res.status(200).send('Hello, World!');
@@ -35,6 +35,15 @@ exports.getExercisesByMuscleGroupId = (req, res, next) => {
     return fetchExercisesByMuscleGroupId(group_id)
     .then((exercises) => {
         res.status(200).send({exercises});
+    })
+    .catch(next);
+}
+
+exports.postExercise = (req, res, next) => {
+    const exerciseData = req.body;
+    addExercise(exerciseData)
+    .then((exercise) => {
+        res.status(201).send({exercise, msg: "Exercise added."});
     })
     .catch(next);
 }
