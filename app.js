@@ -1,11 +1,11 @@
 const express = require('express');
-const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId, postExercise, deleteExercise, editExercise } = require('./controllers/exercises.controller');
+const { helloWorld, getAllExercises, getExerciseById, getExercisesByEquipmentId, getExercisesByMuscleGroupId, postExercise, deleteExercise, editExercise, getDocs } = require('./controllers/exercises.controller');
 const { getAllEquipment } = require('./controllers/equipment.controller');
 const { getAllMuscleGroups } = require('./controllers/muscleGroups.controller');
 const app = express();
 app.use(express.json());
 
-app.get('/', helloWorld);
+app.get('/', getDocs);
 
 app.get('/api/exercises', getAllExercises);
 app.get('/api/exercises/:exercise_id', getExerciseById);

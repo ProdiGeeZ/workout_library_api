@@ -1,7 +1,8 @@
 const { fetchAllExercises, fetchExerciseById, fetchExercisesByEquipmentId, fetchExercisesByMuscleGroupId, addExercise, deleteExerciseById, editExerciseById, } = require("../models/exercises.model");
+const documentation = require('../endpoints.json');
 
-exports.helloWorld = (req, res) => {
-    res.status(200).send('Hello, World!');
+exports.getDocs = (req, res) => {
+    res.status(200).send({documentation});
 };
 
 exports.getAllExercises = (req, res, next) => {
